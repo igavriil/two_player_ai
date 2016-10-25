@@ -13,7 +13,7 @@ namespace TwoPlayerAi.Tests.Graphs
 
         public UndirectedUnweightedDenseGraph()
         {
-           _graph = new UnweightedDenseGraph<string>(10, directed: false);
+           _graph = new UnweightedUndirectedDenseGraph<string>(10);
 
             string[] vertices = new string[] { "a", "b", "c", "d", "e"};
 

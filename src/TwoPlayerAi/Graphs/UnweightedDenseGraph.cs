@@ -5,29 +5,32 @@ using TwoPlayerAi.Utils;
 
 namespace TwoPlayerAi.Graphs
 {
-    public class UnweightedDenseGraph<T> : IUnweightedGraph<T>, IGraph<T> where T : IEquatable<T>
+    public abstract class UnweightedDenseGraph<T> : IUnweightedGraph<T>, IGraph<T> where T : IEquatable<T>
     {
-        protected virtual bool _directed { get; }
-        protected virtual int _capacity { get; }
-        protected virtual int _edgesCount { get; private set; }
-        protected virtual int _verticesCount { get; private set; }
-        protected virtual T[] _vertices { get; }
-        protected virtual T _firstInsertedNode { get; }
-        protected virtual bool[,] _adjacencyMatrix { get; }
+        protected bool _directed { get; set; }
+        protected int _capacity { get; }
+        protected int _edgesCount { get; set; }
+        protected int _verticesCount { get; set; }
+        protected T[] _vertices { get; }
+        protected T _firstInsertedNode { get; }
+        protected bool[,] _adjacencyMatrix { get; }
 
-        public UnweightedDenseGraph(uint capacity, bool directed)
+        public UnweightedDenseGraph(uint capacity)
         {
             _edgesCount = 0;
             _verticesCount = 0;
             _capacity = (int)capacity;
-            _directed = directed;
 
             _vertices = new T[capacity];
             _adjacencyMatrix = new bool[capacity, capacity];
             _adjacencyMatrix.Populate(rows: capacity, columns: capacity, defaultValue: false);
         }
 
-        public virtual IEnumerable<IEdge<T>> Edges
+        public abstract bool AddEdge(T source, T destination);
+        
+        public abstract bool RemoveEdge(T source, T destination);
+
+        public IEnumerable<IEdge<T>> Edges
         {
             get
             {
@@ -41,7 +44,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual IEnumerable<T> Vertices
+        public IEnumerable<T> Vertices
         {
             get
             {
@@ -56,7 +59,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual IEnumerable<IEdge<T>> OutgoingEdges(T vertex)
+        public IEnumerable<IEdge<T>> OutgoingEdges(T vertex)
         {
             if (!this.HasVertex(vertex))
             {
@@ -78,7 +81,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual IEnumerable<IEdge<T>> IncomingEdges(T vertex)
+        public IEnumerable<IEdge<T>> IncomingEdges(T vertex)
         {
             if (!this.HasVertex(vertex))
             {
@@ -99,76 +102,8 @@ namespace TwoPlayerAi.Graphs
                 }
             }
         }
-
-        public virtual bool AddEdge(T source, T destination)
-        {
-            int sourceIndex = Array.IndexOf(_vertices, source);
-            int destinationIndex = Array.IndexOf(_vertices, destination);
-
-            if (sourceIndex == -1 || destinationIndex == -1)
-            {
-                return false;
-            }
-            else if (!this.IsDirected && this.HasEdge(source, destination))
-            {
-                return false;
-            }
-            else if (this.IsDirected && this.HasEdge(source, destination) && this.HasEdge(destination, source))
-            {
-                return false;
-            }
-
-            if (!this.IsDirected)
-            {
-                _adjacencyMatrix[sourceIndex, destinationIndex] = true;
-                _edgesCount++;
-            }
-            else
-            {
-                _adjacencyMatrix[sourceIndex, destinationIndex] = true;
-                _edgesCount++;
-                _adjacencyMatrix[destinationIndex, sourceIndex] = true;
-                _edgesCount++;
-            }
-
-            return true;
-        }
-
-        public virtual bool RemoveEdge(T source, T destination)
-        {
-            int sourceIndex = Array.IndexOf(_vertices, source);
-            int destinationIndex = Array.IndexOf(_vertices, destination);
-
-            if (sourceIndex == -1 || destinationIndex == -1)
-            {
-                return false;
-            }
-            else if (!this.IsDirected && !this.HasEdge(source, destination))
-            {
-                return false;
-            }
-            else if (this.IsDirected && !this.HasEdge(source, destination) && !this.HasEdge(destination, source))
-            {
-                return false;
-            }
-
-            if (!this.IsDirected)
-            {
-                _adjacencyMatrix[sourceIndex, destinationIndex] = false;
-                _edgesCount--;
-            }
-            else
-            {
-                _adjacencyMatrix[sourceIndex, destinationIndex] = false;
-                _edgesCount--;
-                _adjacencyMatrix[destinationIndex, sourceIndex] = false;
-                _edgesCount--;
-            }
-
-            return true;
-        }
-
-        public virtual bool HasEdge(T source, T destination)
+      
+        public bool HasEdge(T source, T destination)
         {
             int sourceIndex = Array.IndexOf(_vertices, source);
             int destinationIndex = Array.IndexOf(_vertices, destination);
@@ -196,7 +131,7 @@ namespace TwoPlayerAi.Graphs
             return new UnweightedEdge<T>(source, destination);
         }
 
-        public virtual int EdgesCount
+        public int EdgesCount
         {
             get
             {
@@ -204,7 +139,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual bool IsDirected
+        public bool IsDirected
         {
             get
             {
@@ -212,7 +147,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual bool IsWeighted
+        public bool IsWeighted
         {
             get
             {
@@ -220,7 +155,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual int VerticesCount
+        public int VerticesCount
         {
             get
             {
@@ -228,7 +163,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual void AddVertices(IEnumerable<T> vertices)
+        public void AddVertices(IEnumerable<T> vertices)
         {
             foreach (T vertex in vertices)
             {
@@ -236,7 +171,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual bool AddVertex(T vertex)
+        public bool AddVertex(T vertex)
         {
             if (this.HasVertex(vertex))
             {
@@ -262,7 +197,7 @@ namespace TwoPlayerAi.Graphs
             return true;
         }
 
-        public virtual bool RemoveVertex(T vertex)
+        public bool RemoveVertex(T vertex)
         {
             if (!this.HasVertex(vertex))
             {
@@ -288,7 +223,7 @@ namespace TwoPlayerAi.Graphs
         }
 
 
-        public virtual int Degree(T vertex)
+        public int Degree(T vertex)
         {
             if (!this.HasVertex(vertex))
             {
@@ -298,12 +233,12 @@ namespace TwoPlayerAi.Graphs
             return this.Neighbours(vertex).Count();
         }
 
-        public virtual bool HasVertex(T vertex)
+        public bool HasVertex(T vertex)
         {
             return _vertices.Contains(vertex);
         }
 
-        public virtual IEnumerable<T> Neighbours(T vertex)
+        public IEnumerable<T> Neighbours(T vertex)
         {
             foreach (IEdge<T> outgoingEdge in this.OutgoingEdges(vertex))
             {
@@ -311,7 +246,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public virtual string ToReadable()
+        public string ToReadable()
         {
             string output = string.Empty;
 

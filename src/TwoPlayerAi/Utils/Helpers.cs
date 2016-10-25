@@ -1,4 +1,4 @@
-namespace TwoPlayerAi.Framework.Common
+namespace TwoPlayerAi.Utils
 {
     public static class Helpers
     {

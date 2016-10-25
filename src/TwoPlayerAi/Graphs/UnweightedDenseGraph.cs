@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using TwoPlayerAi.Framework.Common;
+using TwoPlayerAi.Utils;
 
-namespace TwoPlayerAi.Framework.Graphs
+namespace TwoPlayerAi.Graphs
 {
     public class UnweightedDenseGraph<T> : IUnweightedGraph<T>, IGraph<T> where T : IEquatable<T>
     {

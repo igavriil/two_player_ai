@@ -1,6 +1,6 @@
 using System;
 
-namespace TwoPlayerAi.Framework.Graphs
+namespace TwoPlayerAi.Graphs
 {
     public interface IWeightedGraph<T> where T : IEquatable<T>
     {

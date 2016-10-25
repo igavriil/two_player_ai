@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TwoPlayerAi.Framework.Graphs
+namespace TwoPlayerAi.Graphs
 {
     public interface IGraph<T> where T : IEquatable<T>
     {

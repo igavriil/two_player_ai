@@ -3,7 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using TwoPlayerAi.DataStructures;
 
-namespace TwoPlayerAi.UnitTests.Datastructures
+namespace TwoPlayerAi.Tests.Datastructures
 {
     public class EmptyPriorityQueueWithDefaultComparer
     {

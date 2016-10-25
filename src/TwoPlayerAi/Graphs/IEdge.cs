@@ -1,6 +1,6 @@
 using System;
 
-namespace TwoPlayerAi.Framework.Graphs
+namespace TwoPlayerAi.Graphs
 {
     public interface IEdge<TVertex> : IEquatable<IEdge<TVertex>> where TVertex : IEquatable<TVertex>
     {

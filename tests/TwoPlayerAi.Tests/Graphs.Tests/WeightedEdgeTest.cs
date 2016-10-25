@@ -1,9 +1,9 @@
 using System;
 using Xunit;
 using System.Collections.Generic;
-using TwoPlayerAi.Framework.Graphs;
+using TwoPlayerAi.Graphs;
 
-namespace TwoPlayerAi.UnitTests.Framework.Graphs
+namespace TwoPlayerAi.Tests.Graphs
 {
     public class WeightedEgde
     {

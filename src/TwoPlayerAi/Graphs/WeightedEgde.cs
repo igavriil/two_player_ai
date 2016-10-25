@@ -1,6 +1,6 @@
 using System;
 
-namespace TwoPlayerAi.Framework.Graphs
+namespace TwoPlayerAi.Graphs
 {
     public class WeightedEdge<TVertex> : IEdge<TVertex>, IEquatable<WeightedEdge<TVertex>>
         where TVertex : IEquatable<TVertex>

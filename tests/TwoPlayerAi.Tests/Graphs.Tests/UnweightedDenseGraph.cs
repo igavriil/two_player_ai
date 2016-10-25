@@ -2,10 +2,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
-using TwoPlayerAi.Framework.Graphs;
+using TwoPlayerAi.Graphs;
 using Xunit;
 
-namespace TwoPlayerAi.UnitTests.Framework.Graphs
+namespace TwoPlayerAi.Tests.Graphs
 {
     public class UndirectedUnweightedDenseGraph
     {

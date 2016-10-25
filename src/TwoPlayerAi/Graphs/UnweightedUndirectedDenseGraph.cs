@@ -9,6 +9,7 @@ namespace TwoPlayerAi.Graphs
         {
             _directed = false;
         }
+
         public override bool AddEdge(T source, T destination)
         {
             int sourceIndex = Array.IndexOf(_vertices, source);
@@ -18,14 +19,16 @@ namespace TwoPlayerAi.Graphs
             {
                 return false;
             }
-            else if (this.HasEdge(source, destination))
+            else if (this.HasEdge(source, destination) && this.HasEdge(destination, source))
             {
                 return false;
             }
-            
+
             _adjacencyMatrix[sourceIndex, destinationIndex] = true;
             _edgesCount++;
-           
+            _adjacencyMatrix[destinationIndex, sourceIndex] = true;
+            _edgesCount++;
+
             return true;
         }
 
@@ -38,12 +41,14 @@ namespace TwoPlayerAi.Graphs
             {
                 return false;
             }
-            else if (!this.HasEdge(source, destination))
+            else if (!this.HasEdge(source, destination) && !this.HasEdge(destination, source))
             {
                 return false;
             }
 
             _adjacencyMatrix[sourceIndex, destinationIndex] = false;
+            _edgesCount--;
+            _adjacencyMatrix[destinationIndex, sourceIndex] = false;
             _edgesCount--;
 
             return true;

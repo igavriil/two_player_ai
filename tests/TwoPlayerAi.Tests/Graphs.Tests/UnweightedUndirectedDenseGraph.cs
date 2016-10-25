@@ -7,13 +7,13 @@ using Xunit;
 
 namespace TwoPlayerAi.Tests.Graphs
 {
-    public class UndirectedUnweightedDenseGraph
+    public class UnweightedUndirectedDenseGraph
     {
-        private readonly UnweightedDenseGraph<String> _graph;
+        private readonly UnweightedUndirectedDenseGraph<String> _graph;
 
-        public UndirectedUnweightedDenseGraph()
+        public UnweightedUndirectedDenseGraph()
         {
-           _graph = new UnweightedUndirectedDenseGraph<string>(10);
+            _graph = new UnweightedUndirectedDenseGraph<string>(10);
 
             string[] vertices = new string[] { "a", "b", "c", "d", "e"};
 
@@ -48,15 +48,21 @@ namespace TwoPlayerAi.Tests.Graphs
 
             Assert.Equal(edgesOfA, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("a","b"),
-                new UnweightedEdge<String>("a","c") } );
-            Assert.Equal(edgesOfB, new List<UnweightedEdge<String>>{} );
+                new UnweightedEdge<String>("a","c"),
+                new UnweightedEdge<String>("a","d") } );
+            Assert.Equal(edgesOfB, new List<UnweightedEdge<String>>{
+                new UnweightedEdge<String>("b","a")} );
             Assert.Equal(edgesOfC, new List<UnweightedEdge<String>>{
-                new UnweightedEdge<String>("c","d") } );
+                new UnweightedEdge<String>("c","a"),
+                new UnweightedEdge<String>("c","d"),
+                new UnweightedEdge<String>("c","e") } );
             Assert.Equal(edgesOfD, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("d","a"),
+                new UnweightedEdge<String>("d","c"),
                 new UnweightedEdge<String>("d","e") } );
             Assert.Equal(edgesOfE, new List<UnweightedEdge<String>>{
-                new UnweightedEdge<String>("e","c") } );
+                new UnweightedEdge<String>("e","c"),
+                new UnweightedEdge<String>("e","d") } );
         }
 
         [Fact]
@@ -69,15 +75,21 @@ namespace TwoPlayerAi.Tests.Graphs
             List<UnweightedEdge<String>> edgesOfE = _graph.IncomingEdges("e").Cast<UnweightedEdge<String>>().ToList();
 
             Assert.Equal(edgesOfA, new List<UnweightedEdge<String>>{
+                new UnweightedEdge<String>("b","a"),
+                new UnweightedEdge<String>("c","a"),
                 new UnweightedEdge<String>("d","a") } );
              Assert.Equal(edgesOfB, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("a","b") } );
             Assert.Equal(edgesOfC, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("a","c"),
+                new UnweightedEdge<String>("d","c"),
                 new UnweightedEdge<String>("e","c") } );
             Assert.Equal(edgesOfD, new List<UnweightedEdge<String>>{
-                new UnweightedEdge<String>("c","d") } );
+                new UnweightedEdge<String>("a","d"),
+                new UnweightedEdge<String>("c","d"),
+                new UnweightedEdge<String>("e","d") } );
             Assert.Equal(edgesOfE, new List<UnweightedEdge<String>>{
+                new UnweightedEdge<String>("c","e"),
                 new UnweightedEdge<String>("d","e") } );
         }
 
@@ -90,21 +102,21 @@ namespace TwoPlayerAi.Tests.Graphs
             List<String> neighboursOfD = _graph.Neighbours("d").ToList();
             List<String> neighboursOfE = _graph.Neighbours("e").ToList();
             
-            Assert.Equal(neighboursOfA, new List<String>{ "b", "c" } );
-            Assert.Equal(neighboursOfB, new List<String>{ } );
-            Assert.Equal(neighboursOfC, new List<String>{ "d" } );
-            Assert.Equal(neighboursOfD, new List<String>{ "a", "e" } );
-            Assert.Equal(neighboursOfE, new List<String>{ "c" } );
+            Assert.Equal(neighboursOfA, new List<String>{ "b", "c", "d" } );
+            Assert.Equal(neighboursOfB, new List<String>{ "a" } );
+            Assert.Equal(neighboursOfC, new List<String>{ "a", "d", "e" } );
+            Assert.Equal(neighboursOfD, new List<String>{ "a", "c", "e" } );
+            Assert.Equal(neighboursOfE, new List<String>{ "c", "d" } );
         }
 
         [Fact]
         public void ShouldReturnDegreeOfVertex()
         {
-            Assert.Equal(_graph.Degree("a"), 2);
-            Assert.Equal(_graph.Degree("b"), 0);
-            Assert.Equal(_graph.Degree("c"), 1);
-            Assert.Equal(_graph.Degree("d"), 2);
-            Assert.Equal(_graph.Degree("e"), 1);
+            Assert.Equal(_graph.Degree("a"), 3);
+            Assert.Equal(_graph.Degree("b"), 1);
+            Assert.Equal(_graph.Degree("c"), 3);
+            Assert.Equal(_graph.Degree("d"), 3);
+            Assert.Equal(_graph.Degree("e"), 2);
         }
 
         [Fact]
@@ -112,15 +124,21 @@ namespace TwoPlayerAi.Tests.Graphs
         {
             List<UnweightedEdge<String>> edges = _graph.Edges.Cast<UnweightedEdge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
+            Assert.Equal(12, edges.Count);
 
             Assert.Equal(edges, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("a","b"),
                 new UnweightedEdge<String>("a","c"),
+                new UnweightedEdge<String>("a","d"),
+                new UnweightedEdge<String>("b","a"),
+                new UnweightedEdge<String>("c","a"),
                 new UnweightedEdge<String>("c","d"),
+                new UnweightedEdge<String>("c","e"),
                 new UnweightedEdge<String>("d","a"),
+                new UnweightedEdge<String>("d","c"),
                 new UnweightedEdge<String>("d","e"),
-                new UnweightedEdge<String>("e","c") } );
+                new UnweightedEdge<String>("e","c"),
+                new UnweightedEdge<String>("e","d") } );
         }
 
         [Fact]
@@ -150,14 +168,17 @@ namespace TwoPlayerAi.Tests.Graphs
 
             List<UnweightedEdge<String>> edges = _graph.Edges.Cast<UnweightedEdge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(3, edges.Count);
+            Assert.Equal(6, edges.Count);
 
             Assert.Equal(vertices, new List<String>{ "b", "c", "d", "e" } );
 
             Assert.Equal(edges, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("c","d"),
+                new UnweightedEdge<String>("c","e"),
+                new UnweightedEdge<String>("d","c"),
                 new UnweightedEdge<String>("d","e"),
-                new UnweightedEdge<String>("e","c") } );
+                new UnweightedEdge<String>("e","c"),
+                new UnweightedEdge<String>("e","d") } );
         }
 
         [Fact]
@@ -170,7 +191,7 @@ namespace TwoPlayerAi.Tests.Graphs
             Assert.Equal(false, _graph.RemoveVertex("f"));
             IList<IEdge<String>> edges = _graph.Edges.ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
+            Assert.Equal(12, edges.Count);
         }
 
         [Fact]
@@ -201,16 +222,23 @@ namespace TwoPlayerAi.Tests.Graphs
             Assert.Equal(true, _graph.AddEdge("b", "c"));
             List<UnweightedEdge<String>> edges = _graph.Edges.Cast<UnweightedEdge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(7, edges.Count);
+            Assert.Equal(14, edges.Count);
 
             Assert.Equal(edges, new List<UnweightedEdge<String>>{
                 new UnweightedEdge<String>("a","b"),
                 new UnweightedEdge<String>("a","c"),
+                new UnweightedEdge<String>("a","d"),
+                new UnweightedEdge<String>("b","a"),
                 new UnweightedEdge<String>("b","c"),
+                new UnweightedEdge<String>("c","a"),
+                new UnweightedEdge<String>("c","b"),
                 new UnweightedEdge<String>("c","d"),
+                new UnweightedEdge<String>("c","e"),
                 new UnweightedEdge<String>("d","a"),
+                new UnweightedEdge<String>("d","c"),
                 new UnweightedEdge<String>("d","e"),
-                new UnweightedEdge<String>("e","c") } );
+                new UnweightedEdge<String>("e","c"),
+                new UnweightedEdge<String>("e","d") } );
         }
 
         [Fact]
@@ -219,15 +247,7 @@ namespace TwoPlayerAi.Tests.Graphs
             Assert.Equal(false, _graph.AddEdge("a", "b"));
             List<UnweightedEdge<String>> edges = _graph.Edges.Cast<UnweightedEdge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
-
-            Assert.Equal(edges, new List<UnweightedEdge<String>>{
-                new UnweightedEdge<String>("a","b"),
-                new UnweightedEdge<String>("a","c"),
-                new UnweightedEdge<String>("c","d"),
-                new UnweightedEdge<String>("d","a"),
-                new UnweightedEdge<String>("d","e"),
-                new UnweightedEdge<String>("e","c") } );
+            Assert.Equal(12, edges.Count);
         }
 
         public void ShouldNotAddEdgeWhenVertexDoesNotExist()
@@ -236,14 +256,6 @@ namespace TwoPlayerAi.Tests.Graphs
             List<UnweightedEdge<String>> edges = _graph.Edges.Cast<UnweightedEdge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
             Assert.Equal(6, edges.Count);
-
-            Assert.Equal(edges, new List<UnweightedEdge<String>>{
-                new UnweightedEdge<String>("a","b"),
-                new UnweightedEdge<String>("a","c"),
-                new UnweightedEdge<String>("c","d"),
-                new UnweightedEdge<String>("d","a"),
-                new UnweightedEdge<String>("d","e"),
-                new UnweightedEdge<String>("e","c") } );
         }
     }
 }

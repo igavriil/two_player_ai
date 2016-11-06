@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TwoPlayerAi.Graphs.AdjacencyMatrixes;
 
 namespace TwoPlayerAi.Graphs
 {
@@ -15,13 +16,13 @@ namespace TwoPlayerAi.Graphs
 
         IEnumerable<T> Vertices { get; }
 
-        IEnumerable<IEdge<T>> Edges { get; }
+        IEnumerable<Edge<T>> Edges { get; }
 
-        IEnumerable<IEdge<T>> IncomingEdges(T vertex);
+        IEnumerable<Edge<T>> IncomingEdges(T vertex);
 
-        IEnumerable<IEdge<T>> OutgoingEdges(T vertex);
+        IEnumerable<Edge<T>> OutgoingEdges(T vertex);
 
-        IEdge<T> GetEdge(T source, T destination);
+        Edge<T> GetEdge(T source, T destination);
 
         bool RemoveEdge(T source, T destination);
 
@@ -34,5 +35,11 @@ namespace TwoPlayerAi.Graphs
         IEnumerable<T> Neighbours(T vertex);
 
         int Degree(T vertex);
+
+        bool AddEdge(T source, T destination, int weight);
+
+        bool HasEdge(T source, T destination);
+
+        // bool UpdateEdgeWeight(T source, T destination, int weight);
     }
 }

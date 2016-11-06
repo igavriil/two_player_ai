@@ -2,44 +2,39 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using TwoPlayerAi.Utils;
+using TwoPlayerAi.Graphs.AdjacencyMatrixes;
 
 namespace TwoPlayerAi.Graphs
 {
-    public abstract class UnweightedDenseGraph<T> : IUnweightedGraph<T>, IGraph<T> where T : IEquatable<T>
+    public abstract class UnweightedDenseGraph<T> : IGraph<T> 
+        where T : IEquatable<T>
     {
+        protected bool _isWeighted;
         protected bool _directed { get; set; }
         protected int _capacity { get; }
-        protected int _edgesCount { get; set; }
-        protected int _verticesCount { get; set; }
-        protected T[] _vertices { get; }
-        protected T _firstInsertedNode { get; }
-        protected bool[,] _adjacencyMatrix { get; }
+        protected IAdjacencyMatrix<T> _adjacencyMatrix { get; }
 
-        public UnweightedDenseGraph(uint capacity)
+        public UnweightedDenseGraph()
         {
-            _edgesCount = 0;
-            _verticesCount = 0;
-            _capacity = (int)capacity;
-
-            _vertices = new T[capacity];
-            _adjacencyMatrix = new bool[capacity, capacity];
-            _adjacencyMatrix.Populate(rows: capacity, columns: capacity, defaultValue: false);
+            _adjacencyMatrix = new AdjacencyDenseMatrix<T>();
+            _isWeighted = false;
         }
 
-        public abstract bool AddEdge(T source, T destination);
+        public abstract bool AddEdge(T source, T destination, int weight);
         
         public abstract bool RemoveEdge(T source, T destination);
 
-        public IEnumerable<IEdge<T>> Edges
+        public bool AddEdge(T source, T destination)
+        {
+            return this.AddEdge(source, destination, 1);
+        }
+        public IEnumerable<Edge<T>> Edges
         {
             get
             {
-                foreach (T vertex in this.Vertices)
+                foreach (Edge<T> edge in _adjacencyMatrix.Edges)
                 {
-                    foreach (IEdge<T> outgoingEdge in this.OutgoingEdges(vertex))
-                    {
-                        yield return outgoingEdge;
-                    }
+                    yield return edge;
                 }
             }
         }
@@ -48,7 +43,7 @@ namespace TwoPlayerAi.Graphs
         {
             get
             {
-                foreach (T vertex in _vertices)
+                foreach (T vertex in _adjacencyMatrix.Vertices)
                 {
                     if (vertex == null || vertex.Equals(default(T)))
                     {
@@ -59,83 +54,45 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public IEnumerable<IEdge<T>> OutgoingEdges(T vertex)
+        public IEnumerable<Edge<T>> OutgoingEdges(T vertex)
         {
-            if (!this.HasVertex(vertex))
+            foreach (Edge<T> edge in _adjacencyMatrix.OutgoingEdges(vertex))
             {
-                throw new KeyNotFoundException("Vertex not found");
-            }
-
-            int sourceIndex = Array.IndexOf(_vertices, vertex);
-
-            for (int adjacentIndex = 0; adjacentIndex < _vertices.Length; adjacentIndex++)
-            {
-                T adjacent = _vertices[adjacentIndex];
-                if (this.HasEdge(vertex, adjacent))
-                {
-                    yield return new UnweightedEdge<T>(
-                        vertex,
-                        adjacent
-                    );
-                }
+                yield return edge;
             }
         }
 
-        public IEnumerable<IEdge<T>> IncomingEdges(T vertex)
+        public IEnumerable<Edge<T>> IncomingEdges(T vertex)
         {
-            if (!this.HasVertex(vertex))
+            foreach (Edge<T> edge in _adjacencyMatrix.IncomingEdges(vertex))
             {
-                throw new KeyNotFoundException("Vertex not found");
-            }
-
-            int sourceIndex = Array.IndexOf(_vertices, vertex);
-
-            for (int adjacentIndex = 0; adjacentIndex < _vertices.Length; adjacentIndex++)
-            {
-                T adjacent = _vertices[adjacentIndex];
-                if (this.HasEdge(adjacent, vertex))
-                {
-                    yield return new UnweightedEdge<T>(
-                        adjacent,
-                        vertex
-                    );
-                }
+                yield return edge;
             }
         }
       
         public bool HasEdge(T source, T destination)
         {
-            int sourceIndex = Array.IndexOf(_vertices, source);
-            int destinationIndex = Array.IndexOf(_vertices, destination);
-            if (sourceIndex == -1 || destinationIndex == -1)
-            {
-                return false;
-            }
-            return _adjacencyMatrix[sourceIndex, destinationIndex];
+            return _adjacencyMatrix.HasEdge(source, destination);
         }
 
-        public IEdge<T> GetEdge(T source, T destination)
+        public Edge<T> GetEdge(T source, T destination)
         {
-            int sourceIndex = Array.IndexOf(_vertices, source);
-            int destinationIndex = Array.IndexOf(_vertices, destination);
-
-            if (sourceIndex == -1)
-            {
-                throw new KeyNotFoundException("Source Vertex not found");
-            }
-            if (destinationIndex == -1)
-            {
-                throw new KeyNotFoundException("Destination Vertex not found");
-            }
-
-            return new UnweightedEdge<T>(source, destination);
+            return _adjacencyMatrix.GetEdge(source, destination);
         }
 
         public int EdgesCount
         {
             get
             {
-                return _edgesCount;
+                return _adjacencyMatrix.EdgesCount;
+            }
+        }
+
+        public int VerticesCount
+        {
+            get
+            {
+                return _adjacencyMatrix.VerticesCount;
             }
         }
 
@@ -151,15 +108,7 @@ namespace TwoPlayerAi.Graphs
         {
             get
             {
-                return false;
-            }
-        }
-
-        public int VerticesCount
-        {
-            get
-            {
-                return _verticesCount;
+                return _isWeighted;
             }
         }
 
@@ -173,28 +122,7 @@ namespace TwoPlayerAi.Graphs
 
         public bool AddVertex(T vertex)
         {
-            if (this.HasVertex(vertex))
-            {
-                return false;
-            }
-            if (_verticesCount >= _capacity)
-            {
-                return false;
-            }
-
-            int indexOfDefault = Array.IndexOf(_vertices, default(T));
-
-            if (indexOfDefault == -1)
-            {
-                _vertices[_verticesCount] = vertex;
-            }
-            else
-            {
-                _vertices[indexOfDefault] = vertex;
-            }
-            _verticesCount++;
-
-            return true;
+           return _adjacencyMatrix.AddVertex(vertex);
         }
 
         public bool RemoveVertex(T vertex)
@@ -204,22 +132,16 @@ namespace TwoPlayerAi.Graphs
                 return false;
             }
 
-            foreach (IEdge<T> outgoingEdge in this.OutgoingEdges(vertex))
+            foreach (Edge<T> outgoingEdge in this.OutgoingEdges(vertex))
             {
                 this.RemoveEdge(outgoingEdge.Source, outgoingEdge.Destination);
             }
 
-            foreach (IEdge<T> incomingEdge in this.IncomingEdges(vertex))
+            foreach (Edge<T> incomingEdge in this.IncomingEdges(vertex))
             {
                 this.RemoveEdge(incomingEdge.Source, incomingEdge.Destination);
             }
-
-            int index = Array.IndexOf(_vertices, vertex);
-
-            _vertices[index] = default(T);
-            _verticesCount--;
-
-            return true;
+            return _adjacencyMatrix.RemoveVertex(vertex);
         }
 
 
@@ -227,7 +149,7 @@ namespace TwoPlayerAi.Graphs
         {
             if (!this.HasVertex(vertex))
             {
-                throw new KeyNotFoundException("Vertex not found");
+                throw new KeyNotFoundException();
             }
 
             return this.Neighbours(vertex).Count();
@@ -235,43 +157,15 @@ namespace TwoPlayerAi.Graphs
 
         public bool HasVertex(T vertex)
         {
-            return _vertices.Contains(vertex);
+            return _adjacencyMatrix.HasVertex(vertex);
         }
 
         public IEnumerable<T> Neighbours(T vertex)
         {
-            foreach (IEdge<T> outgoingEdge in this.OutgoingEdges(vertex))
+            foreach (Edge<T> outgoingEdge in this.OutgoingEdges(vertex))
             {
                 yield return outgoingEdge.Destination;
             }
-        }
-
-        public string ToReadable()
-        {
-            string output = string.Empty;
-
-            for (int i = 0; i < _vertices.Length; ++i)
-            {
-                if (_vertices[i] == null || _vertices[i].Equals(default(T)))
-                {
-                    continue;
-                }
-
-                var node = (T)_vertices[i];
-                var adjacents = string.Empty;
-
-                output = String.Format("{0}\r\n{1}: [", output, node);
-
-                foreach (var adjacentNode in Neighbours(node))
-                    adjacents = String.Format("{0}{1},", adjacents, adjacentNode);
-
-                if (adjacents.Length > 0)
-                    adjacents = adjacents.TrimEnd(new char[] { ',', ' ' });
-
-                output = String.Format("{0}{1}]", output, adjacents);
-            }
-
-            return output;
         }
     }
 }

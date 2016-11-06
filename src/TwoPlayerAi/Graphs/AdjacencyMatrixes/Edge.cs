@@ -1,12 +1,12 @@
 using System;
 
-namespace TwoPlayerAi.Graphs
+namespace TwoPlayerAi.Graphs.AdjacencyMatrixes
 {
-    public class WeightedEdge<TVertex> : IEdge<TVertex>, IEquatable<WeightedEdge<TVertex>>
+    public class Edge<TVertex> : IEquatable<Edge<TVertex>>
         where TVertex : IEquatable<TVertex>
     {
 
-        public WeightedEdge(TVertex source, TVertex destination, int weight)
+        public Edge(TVertex source, TVertex destination, int weight)
         {
             Source = source;
             Destination = destination;
@@ -27,7 +27,7 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public bool Equals(WeightedEdge<TVertex> other)
+        public bool Equals(Edge<TVertex> other)
         {
             if (other == null)
             {
@@ -41,23 +41,10 @@ namespace TwoPlayerAi.Graphs
             }
         }
 
-        public bool Equals(IEdge<TVertex> other)
-        {
-            if (!other.IsWeighted)
-            {
-                return false;
-            }
-            else
-            {
-                WeightedEdge<TVertex> weightedEdge = other as WeightedEdge<TVertex>;
-                return this.Equals(weightedEdge);
-            }
-        }
-
         public override bool Equals(object other)
         {
-            WeightedEdge<TVertex> weightedEdge = other as WeightedEdge<TVertex>;
-            return this.Equals(weightedEdge);
+            Edge<TVertex> Edge = other as Edge<TVertex>;
+            return this.Equals(Edge);
         }
 
         public override int GetHashCode()
@@ -70,7 +57,7 @@ namespace TwoPlayerAi.Graphs
 
         public override string ToString()
         {
-            return "WeightedEdge: " + this.Source.ToString() + "->" + this.Destination.ToString() + ":" + this.Weight.ToString();
+            return "Edge: " + this.Source.ToString() + "->" + this.Destination.ToString() + ":" + this.Weight.ToString();
         }
     }
 }

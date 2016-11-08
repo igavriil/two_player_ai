@@ -1,6 +1,6 @@
 using System;
 
-namespace TwoPlayerAi.Graphs.AdjacencyMatrixes
+namespace TwoPlayerAi.Graphs.AdjacencyMatrices
 {
     public class Edge<TVertex> : IEquatable<Edge<TVertex>>
         where TVertex : IEquatable<TVertex>

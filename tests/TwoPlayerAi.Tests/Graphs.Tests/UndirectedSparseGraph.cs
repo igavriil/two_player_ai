@@ -3,29 +3,29 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using TwoPlayerAi.Graphs;
-using TwoPlayerAi.Graphs.AdjacencyMatrixes;
+using TwoPlayerAi.Graphs.AdjacencyMatrices;
 using Xunit;
 
 namespace TwoPlayerAi.Tests.Graphs
 {
-    public class UnweightedDirectedDenseGraph
+    public class UndirectedSparseGraph
     {
-        private readonly UnweightedDirectedDenseGraph<String> _graph;
+        private readonly UndirectedSparseGraph<String> _graph;
 
-        public UnweightedDirectedDenseGraph()
+        public UndirectedSparseGraph()
         {
-            _graph = new UnweightedDirectedDenseGraph<string>();
+            _graph = new UndirectedSparseGraph<string>();
 
             string[] vertices = new string[] { "a", "b", "c", "d", "e"};
 
             _graph.AddVertices(vertices);
 
-            Assert.Equal(_graph.AddEdge("a", "c", 1), true);
-            Assert.Equal(_graph.AddEdge("a", "b", 1), true);
-            Assert.Equal(_graph.AddEdge("c", "d", 1), true);
-            Assert.Equal(_graph.AddEdge("d", "e", 1), true);
-            Assert.Equal(_graph.AddEdge("d", "a", 1), true);
-            Assert.Equal(_graph.AddEdge("e", "c", 1), true);
+            Assert.Equal(_graph.SetEdge("a", "c", 1), true);
+            Assert.Equal(_graph.SetEdge("a", "b", 1), true);
+            Assert.Equal(_graph.SetEdge("c", "d", 1), true);
+            Assert.Equal(_graph.SetEdge("d", "e", 1), true);
+            Assert.Equal(_graph.SetEdge("d", "a", 1), true);
+            Assert.Equal(_graph.SetEdge("e", "c", 1), true);
         }
 
         [Fact]
@@ -49,15 +49,21 @@ namespace TwoPlayerAi.Tests.Graphs
 
             Assert.Equal(edgesOfA, new List<Edge<String>>{
                 new Edge<String>("a","b",1),
-                new Edge<String>("a","c",1) } );
-            Assert.Equal(edgesOfB, new List<Edge<String>>{} );
+                new Edge<String>("a","c",1),
+                new Edge<String>("a","d",1) } );
+            Assert.Equal(edgesOfB, new List<Edge<String>>{
+                new Edge<String>("b","a",1)} );
             Assert.Equal(edgesOfC, new List<Edge<String>>{
-                new Edge<String>("c","d",1) } );
+                new Edge<String>("c","a",1),
+                new Edge<String>("c","d",1),
+                new Edge<String>("c","e",1) } );
             Assert.Equal(edgesOfD, new List<Edge<String>>{
                 new Edge<String>("d","a",1),
+                new Edge<String>("d","c",1),
                 new Edge<String>("d","e",1) } );
             Assert.Equal(edgesOfE, new List<Edge<String>>{
-                new Edge<String>("e","c",1) } );
+                new Edge<String>("e","c",1),
+                new Edge<String>("e","d",1) } );
         }
 
         [Fact]
@@ -70,15 +76,21 @@ namespace TwoPlayerAi.Tests.Graphs
             List<Edge<String>> edgesOfE = _graph.IncomingEdges("e").Cast<Edge<String>>().ToList();
 
             Assert.Equal(edgesOfA, new List<Edge<String>>{
+                new Edge<String>("b","a",1),
+                new Edge<String>("c","a",1),
                 new Edge<String>("d","a",1) } );
              Assert.Equal(edgesOfB, new List<Edge<String>>{
                 new Edge<String>("a","b",1) } );
             Assert.Equal(edgesOfC, new List<Edge<String>>{
                 new Edge<String>("a","c",1),
+                new Edge<String>("d","c",1),
                 new Edge<String>("e","c",1) } );
             Assert.Equal(edgesOfD, new List<Edge<String>>{
-                new Edge<String>("c","d",1) } );
+                new Edge<String>("a","d",1),
+                new Edge<String>("c","d",1),
+                new Edge<String>("e","d",1) } );
             Assert.Equal(edgesOfE, new List<Edge<String>>{
+                new Edge<String>("c","e",1),
                 new Edge<String>("d","e",1) } );
         }
 
@@ -91,21 +103,21 @@ namespace TwoPlayerAi.Tests.Graphs
             List<String> neighboursOfD = _graph.Neighbours("d").ToList();
             List<String> neighboursOfE = _graph.Neighbours("e").ToList();
             
-            Assert.Equal(neighboursOfA, new List<String>{ "b", "c" } );
-            Assert.Equal(neighboursOfB, new List<String>{ } );
-            Assert.Equal(neighboursOfC, new List<String>{ "d" } );
-            Assert.Equal(neighboursOfD, new List<String>{ "a", "e" } );
-            Assert.Equal(neighboursOfE, new List<String>{ "c" } );
+            Assert.Equal(neighboursOfA, new List<String>{ "b", "c", "d" } );
+            Assert.Equal(neighboursOfB, new List<String>{ "a" } );
+            Assert.Equal(neighboursOfC, new List<String>{ "a", "d", "e" } );
+            Assert.Equal(neighboursOfD, new List<String>{ "a", "c", "e" } );
+            Assert.Equal(neighboursOfE, new List<String>{ "c", "d" } );
         }
 
         [Fact]
         public void ShouldReturnDegreeOfVertex()
         {
-            Assert.Equal(_graph.Degree("a"), 2);
-            Assert.Equal(_graph.Degree("b"), 0);
-            Assert.Equal(_graph.Degree("c"), 1);
-            Assert.Equal(_graph.Degree("d"), 2);
-            Assert.Equal(_graph.Degree("e"), 1);
+            Assert.Equal(_graph.Degree("a"), 3);
+            Assert.Equal(_graph.Degree("b"), 1);
+            Assert.Equal(_graph.Degree("c"), 3);
+            Assert.Equal(_graph.Degree("d"), 3);
+            Assert.Equal(_graph.Degree("e"), 2);
         }
 
         [Fact]
@@ -113,15 +125,21 @@ namespace TwoPlayerAi.Tests.Graphs
         {
             List<Edge<String>> edges = _graph.Edges.Cast<Edge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
+            Assert.Equal(12, edges.Count);
 
             Assert.Equal(edges, new List<Edge<String>>{
                 new Edge<String>("a","b",1),
                 new Edge<String>("a","c",1),
+                new Edge<String>("a","d",1),
+                new Edge<String>("b","a",1),
+                new Edge<String>("c","a",1),
                 new Edge<String>("c","d",1),
+                new Edge<String>("c","e",1),
                 new Edge<String>("d","a",1),
+                new Edge<String>("d","c",1),
                 new Edge<String>("d","e",1),
-                new Edge<String>("e","c",1) } );
+                new Edge<String>("e","c",1),
+                new Edge<String>("e","d",1) } );
         }
 
         [Fact]
@@ -151,14 +169,17 @@ namespace TwoPlayerAi.Tests.Graphs
 
             List<Edge<String>> edges = _graph.Edges.Cast<Edge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(3, edges.Count);
+            Assert.Equal(6, edges.Count);
 
             Assert.Equal(vertices, new List<String>{ "b", "c", "d", "e" } );
 
             Assert.Equal(edges, new List<Edge<String>>{
                 new Edge<String>("c","d",1),
+                new Edge<String>("c","e",1),
+                new Edge<String>("d","c",1),
                 new Edge<String>("d","e",1),
-                new Edge<String>("e","c",1) } );
+                new Edge<String>("e","c",1),
+                new Edge<String>("e","d",1) } );
         }
 
         [Fact]
@@ -171,7 +192,7 @@ namespace TwoPlayerAi.Tests.Graphs
             Assert.Equal(false, _graph.RemoveVertex("f"));
             IList<Edge<String>> edges = _graph.Edges.ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
+            Assert.Equal(12, edges.Count);
         }
 
         [Fact]
@@ -197,38 +218,46 @@ namespace TwoPlayerAi.Tests.Graphs
         }
 
         [Fact]
-        public void ShouldAddEdgeWhenEdgeDoesNotExist()
+        public void ShouldSetEdgeWhenEdgeDoesNotExist()
         {
-            Assert.Equal(true, _graph.AddEdge("b", "c"));
+            Assert.Equal(true, _graph.SetEdge("b", "c", 1));
             List<Edge<String>> edges = _graph.Edges.Cast<Edge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(7, edges.Count);
+            Assert.Equal(14, edges.Count);
 
             Assert.Equal(edges, new List<Edge<String>>{
                 new Edge<String>("a","b",1),
                 new Edge<String>("a","c",1),
+                new Edge<String>("a","d",1),
+                new Edge<String>("b","a",1),
                 new Edge<String>("b","c",1),
+                new Edge<String>("c","a",1),
+                new Edge<String>("c","b",1),
                 new Edge<String>("c","d",1),
+                new Edge<String>("c","e",1),
                 new Edge<String>("d","a",1),
+                new Edge<String>("d","c",1),
                 new Edge<String>("d","e",1),
-                new Edge<String>("e","c",1) } );
+                new Edge<String>("e","c",1),
+                new Edge<String>("e","d",1) } );
         }
 
         [Fact]
-        public void ShouldNotAddEdgeWhenEdgeExists()
+        public void ShouldNotSetEdgeWhenEdgeExists()
         {
-            Assert.Equal(false, _graph.AddEdge("a", "b"));
+            Assert.Equal(false, _graph.SetEdge("a", "b", 1));
             List<Edge<String>> edges = _graph.Edges.Cast<Edge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
+            Assert.Equal(12, edges.Count);
         }
-
-        public void ShouldNotAddEdgeWhenVertexDoesNotExist()
+        
+        [Fact]
+        public void ShouldNotSetEdgeWhenVertexDoesNotExist()
         {
-            Assert.Equal(false, _graph.AddEdge("a", "f"));
+            Assert.Equal(false, _graph.SetEdge("a", "f", 1));
             List<Edge<String>> edges = _graph.Edges.Cast<Edge<String>>().ToList();
             Assert.Equal(edges.Count, _graph.EdgesCount);
-            Assert.Equal(6, edges.Count);
+            Assert.Equal(12, edges.Count);
         }
     }
 }

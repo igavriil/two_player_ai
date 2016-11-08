@@ -1,16 +1,17 @@
 using System;
+using TwoPlayerAi.Graphs.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Graphs
 {
-    public class UnweightedDirectedDenseGraph<T>: UnweightedDenseGraph<T> 
+    public class DirectedSparseGraph<T>: Graph<T> 
         where T : IEquatable<T>
     {
-        public UnweightedDirectedDenseGraph() : base()
+        public DirectedSparseGraph(): base(new AdjacencySparseMatrix<T>())
         {
-            _directed = true;
+            _isDirected = true;
         }
 
-        public override bool AddEdge(T source, T destination, int weight)
+        public override bool SetEdge(T source, T destination, int weight)
         {
             return this._adjacencyMatrix.SetEdge(source, destination, weight);
         }

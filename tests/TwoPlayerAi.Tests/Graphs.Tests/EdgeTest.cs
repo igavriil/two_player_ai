@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 using System.Collections.Generic;
-using TwoPlayerAi.Graphs.AdjacencyMatrixes;
+using TwoPlayerAi.Graphs.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Tests.Graphs
 {

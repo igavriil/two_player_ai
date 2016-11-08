@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TwoPlayerAi.Graphs.AdjacencyMatrixes
+namespace TwoPlayerAi.Graphs.AdjacencyMatrices
 {
     public abstract class AdjacencyMatrix<T> : IAdjacencyMatrix<T>
         where T : IEquatable<T>
@@ -66,7 +66,6 @@ namespace TwoPlayerAi.Graphs.AdjacencyMatrixes
             }
 
             int indexOfDefault = Array.IndexOf(_vertices, default(T));
-
             if (indexOfDefault == -1)
             {
                 _vertices[_verticesCount] = element;

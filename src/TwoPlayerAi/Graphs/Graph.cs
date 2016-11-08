@@ -1,33 +1,32 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using TwoPlayerAi.Utils;
-using TwoPlayerAi.Graphs.AdjacencyMatrixes;
+using TwoPlayerAi.Graphs.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Graphs
 {
-    public abstract class UnweightedDenseGraph<T> : IGraph<T> 
+    public abstract class Graph<T> : IGraph<T> 
         where T : IEquatable<T>
     {
-        protected bool _isWeighted;
-        protected bool _directed { get; set; }
+        protected bool _isWeighted { get; set; }
+        protected bool _isDirected { get; set; }
         protected int _capacity { get; }
         protected IAdjacencyMatrix<T> _adjacencyMatrix { get; }
 
-        public UnweightedDenseGraph()
+        public Graph(IAdjacencyMatrix<T> adjacencyMatrix)
         {
-            _adjacencyMatrix = new AdjacencyDenseMatrix<T>();
-            _isWeighted = false;
+            _adjacencyMatrix = adjacencyMatrix;
         }
 
-        public abstract bool AddEdge(T source, T destination, int weight);
+        public abstract bool SetEdge(T source, T destination, int weight);
         
         public abstract bool RemoveEdge(T source, T destination);
 
-        public bool AddEdge(T source, T destination)
+        public bool SetEdge(T source, T destination)
         {
-            return this.AddEdge(source, destination, 1);
+            return this.SetEdge(source, destination, 1);
         }
+        
         public IEnumerable<Edge<T>> Edges
         {
             get
@@ -100,7 +99,7 @@ namespace TwoPlayerAi.Graphs
         {
             get
             {
-                return _directed;
+                return _isDirected;
             }
         }
 
@@ -122,7 +121,7 @@ namespace TwoPlayerAi.Graphs
 
         public bool AddVertex(T vertex)
         {
-           return _adjacencyMatrix.AddVertex(vertex);
+            return _adjacencyMatrix.AddVertex(vertex);
         }
 
         public bool RemoveVertex(T vertex)

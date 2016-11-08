@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TwoPlayerAi.Graphs.AdjacencyMatrixes
+namespace TwoPlayerAi.Graphs.AdjacencyMatrices
 {
     public class AdjacencySparseMatrix<T> : AdjacencyMatrix<T>, IAdjacencyMatrix<T> 
         where T : IEquatable<T>
@@ -9,6 +9,8 @@ namespace TwoPlayerAi.Graphs.AdjacencyMatrixes
         protected Dictionary<int, Dictionary<int, int>> _dictionary;
         public AdjacencySparseMatrix()
         {
+            _verticesCount = 0;
+            _vertices =  Array.Empty<T>();
             _dictionary = new Dictionary<int, Dictionary<int, int>>();
             _size = 0;
         }

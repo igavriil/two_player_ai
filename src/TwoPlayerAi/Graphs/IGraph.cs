@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using TwoPlayerAi.Graphs.AdjacencyMatrices;
+using TwoPlayerAi.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Graphs
 {

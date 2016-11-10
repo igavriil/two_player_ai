@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using TwoPlayerAi.Graphs;
-using TwoPlayerAi.Graphs.AdjacencyMatrices;
+using TwoPlayerAi.AdjacencyMatrices;
 using Xunit;
 
 namespace TwoPlayerAi.Tests.Graphs

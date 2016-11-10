@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TwoPlayerAi.Graphs.AdjacencyMatrices
+namespace TwoPlayerAi.AdjacencyMatrices
 {
     public interface IAdjacencyMatrix<T> where T : IEquatable<T>
     {

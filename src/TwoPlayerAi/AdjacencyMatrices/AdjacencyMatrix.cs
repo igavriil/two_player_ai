@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TwoPlayerAi.Graphs.AdjacencyMatrices
+namespace TwoPlayerAi.AdjacencyMatrices
 {
     public abstract class AdjacencyMatrix<T> : IAdjacencyMatrix<T>
         where T : IEquatable<T>

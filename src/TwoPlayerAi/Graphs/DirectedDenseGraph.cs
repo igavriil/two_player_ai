@@ -1,5 +1,5 @@
 using System;
-using TwoPlayerAi.Graphs.AdjacencyMatrices;
+using TwoPlayerAi.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Graphs
 {

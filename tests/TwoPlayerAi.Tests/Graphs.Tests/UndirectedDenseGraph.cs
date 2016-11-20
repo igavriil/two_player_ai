@@ -79,7 +79,7 @@ namespace TwoPlayerAi.Tests.Graphs
                 new Edge<String>("b","a",1),
                 new Edge<String>("c","a",1),
                 new Edge<String>("d","a",1) } );
-             Assert.Equal(edgesOfB, new List<Edge<String>>{
+            Assert.Equal(edgesOfB, new List<Edge<String>>{
                 new Edge<String>("a","b",1) } );
             Assert.Equal(edgesOfC, new List<Edge<String>>{
                 new Edge<String>("a","c",1),

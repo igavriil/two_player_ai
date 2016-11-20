@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 namespace TwoPlayerAi.Search
 {
-    public interface IProblem
+    public interface IProblem<T>
     {
-        IState InitialState();
+        T InitialState();
 
-        IEnumerable<IAction> Actions(IState state);
+        IEnumerable<IAction<T>> Actions(T state);
 
-        IState Transition(IState state, IAction action);
+        T Transition(T state, IAction<T> action);
         
-        bool GoalTest(IState state);
+        bool GoalTest(T state);
 
-        int StepCost(IState state, IAction action);
+        int StepCost(T state, IAction<T> action);
     }
 }

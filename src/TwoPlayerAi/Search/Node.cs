@@ -1,15 +1,13 @@
 namespace TwoPlayerAi.Search
 {
-    public class Node
+    public class Node<T>
     {
-        public IState State { get; }
-
-        public Node Parent { get; }
-        public IAction Action { get; }
-
+        public T State { get; }
+        public Node<T> Parent { get; }
+        public IAction<T> Action { get; }
         public int PathCost { get; }
 
-        public Node(IState state, IAction action, Node parent, int pathCost)
+        public Node(T state, IAction<T> action, Node<T> parent, int pathCost)
         {
             State = state;
             Action = action;
@@ -17,14 +15,14 @@ namespace TwoPlayerAi.Search
             PathCost = pathCost;
         }
 
-        public Node(IState state): this(state, null, null, 0) {}
+        public Node(T state): this(state, null, null, 0) {}
 
-        public Node ChildNode(IProblem problem, IAction action)
+        public Node<T> ChildNode(IProblem<T> problem, IAction<T> action)
         {
-            IState state = problem.Transition(this.State, action);
+            T state = problem.Transition(this.State, action);
             int stepCost = problem.StepCost(this.State, action);
             int totalCost = this.PathCost + stepCost;
-            return new Node(state, action, this,totalCost); 
+            return new Node<T>(state, action, this, totalCost); 
         }
     }
 }

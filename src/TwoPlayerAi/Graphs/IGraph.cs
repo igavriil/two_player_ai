@@ -10,6 +10,5 @@ namespace TwoPlayerAi.Graphs
         bool IsDirected { get; }
         IEnumerable<T> Neighbours(T vertex);
         int Degree(T vertex);
-        // bool UpdateEdgeWeight(T source, T destination, int weight);
     }
 }

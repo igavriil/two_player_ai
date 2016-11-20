@@ -1,7 +1,7 @@
 namespace TwoPlayerAi.Search
 {
-    public interface IHeuristicProblem
+    public interface IHeuristicProblem<T>
     {
-        int Heuristic(IState state);
+        int Heuristic(T state);
     }
 }

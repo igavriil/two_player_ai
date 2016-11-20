@@ -2,5 +2,5 @@ using System;
 
 namespace TwoPlayerAi.Search
 {
-    public interface IState : IEquatable<IState> {}
+    public interface IState<T> : IEquatable<T> {}
 }

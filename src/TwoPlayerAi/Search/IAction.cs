@@ -1,6 +1,11 @@
-using System;
-
 namespace TwoPlayerAi.Search
 {
-    public interface IAction : IEquatable<IAction> {}
+    public interface IAction<T>
+    {
+        T FromState { get; }
+
+        T ToState { get; }
+
+        int Cost { get; }
+    }
 }

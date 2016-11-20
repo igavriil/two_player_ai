@@ -57,7 +57,7 @@ namespace TwoPlayerAi.AdjacencyMatrices
 
         public override string ToString()
         {
-            return "Edge: " + this.Source.ToString() + "->" + this.Destination.ToString() + ":" + this.Weight.ToString();
+            return $"{Source}->{Destination}:{Weight}";
         }
     }
 }

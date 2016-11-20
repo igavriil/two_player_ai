@@ -75,7 +75,7 @@ namespace TwoPlayerAi.Tests.Search
 
             public override string ToString()
             {
-                return "EdgeAction: " + this.FromState.ToString() + "->" + this.ToState.ToString() + ":" + this.Cost.ToString();
+                return _edge.ToString();
             }
         }
 

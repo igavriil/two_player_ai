@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 
 namespace TwoPlayerAi.Search
 {
     public interface IProblem<T>
+        where T : IEquatable<T>
     {
         T InitialState();
 

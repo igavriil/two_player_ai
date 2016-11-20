@@ -1,50 +1,61 @@
-using System;
+using TwoPlayerAi.DataStructures;
 using System.Collections.Generic;
 
 namespace TwoPlayerAi.Search
 {
-    public class UninformedSearch<T>
-        where T : IEquatable<T>
+    public class AStarSearch<T>
+        where T : IState<T>
     {
         public IProblem<T> Problem { get; }
-        public IFrontier<Node<T>> Frontier { get; }
+        public PriorityQueue<HeuristicNode<T>> PriorityQueue { get; }
         public HashSet<T> OpenList { get; }
         public HashSet<T> ClosedList { get; }
-        public UninformedSearch(IProblem<T> problem, IFrontier<Node<T>> frontier)
+
+        public IHeustisticFunction<T> Heuristic { get; }
+        public AStarSearch(IProblem<T> problem, IHeustisticFunction<T> heuristic)
         {
             Problem = problem;
-            Frontier = frontier;
-            OpenList = new HashSet<T>();
-            ClosedList = new HashSet<T>();
+            Heuristic = heuristic;
+            PriorityQueue = new PriorityQueue<HeuristicNode<T>>();
         }
 
         public SearchResult<T> Search()
         {
             T state = Problem.InitialState();
-            Node<T> node = new Node<T>(state);
+            HeuristicNode<T> node = new HeuristicNode<T>(state, 1);
             if (Problem.GoalTest(state))
             {
                 return new SearchResult<T>(node);
             }
-            Frontier.Put(node);
+            PriorityQueue.Push(node);
             OpenList.Add(state);
 
-            while (!Frontier.IsEmpty)
+            while (!PriorityQueue.IsEmpty)
             {
-                node = Frontier.Take();
+                node = PriorityQueue.Pop();
                 state = node.State;
                 ClosedList.Add(state);
                 foreach (IAction<T> action in Problem.Actions(state))
                 {
-                    Node<T> childNode = node.ChildNode(Problem, action);
+                    HeuristicNode<T> childNode = node.ChildNode(Problem, action, Heuristic);
                     T childState = childNode.State;
+                    if (ClosedList.Contains(childState) || OpenList.Contains(childState))
+                    {
+                        if (PriorityQueue.Contains(childNode) && childNode.HeuristicCost > node.HeuristicCost)
+                        {
+                            PriorityQueue.Push(childNode);
+                            OpenList.Add(childState);
+                        }
+                    }
+
                     if (!ClosedList.Contains(childState) && !OpenList.Contains(childState))
                     {
+
                         if (Problem.GoalTest(childState))
                         {
                             return new SearchResult<T>(childNode);
                         }
-                        Frontier.Put(childNode);
+                        PriorityQueue.Push(childNode);
                         OpenList.Add(childState);
                     }
                 }

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 namespace TwoPlayerAi.DataStructures
 {
-    public class PriorityQueue<T> where T : IComparable<T>
+    public class PriorityQueue<T> 
+        where T : IComparable<T>
     {
         private IList<T> _priorityQueue;
         private IComparer<T> _comparer;
@@ -67,6 +68,17 @@ namespace TwoPlayerAi.DataStructures
                 return element;
             }
         }
+
+        public bool Contains(T element)
+        {
+            return _priorityQueue.Contains(element);
+        }
+
+         public T FirstOrDefault(T element)
+        {
+            return _priorityQueue.FirstOrDefault(x => x.Equals(element));
+        }
+
         public T Peek()
         {
             return _priorityQueue[0];

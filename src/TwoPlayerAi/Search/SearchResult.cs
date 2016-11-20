@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 
 namespace TwoPlayerAi.Search
 {
     public class SearchResult<T>
+        where T : IEquatable<T>
     {
         private Node<T> _node;
         public SearchResult(Node<T> node)

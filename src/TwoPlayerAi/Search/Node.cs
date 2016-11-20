@@ -1,6 +1,9 @@
+using System;
+
 namespace TwoPlayerAi.Search
 {
-    public class Node<T>
+    public class Node<T> 
+        where T : IEquatable<T>
     {
         public T State { get; }
         public Node<T> Parent { get; }

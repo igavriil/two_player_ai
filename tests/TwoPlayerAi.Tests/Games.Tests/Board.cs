@@ -6,10 +6,12 @@ namespace TwoPlayerAi.Tests.Games
 {
     public class BoardTest
     {
+
         public BoardTest()
         {
             Board board = new Board(5);
             board.RemoveEdge(new Vector(1,2), new Vector(2,2));
+            board.RemoveEdge(new Vector(2,2), new Vector(2,3));
             Console.WriteLine(board);
             
         }

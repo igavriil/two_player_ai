@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TwoPlayerAi.AdjacencyMatrices;
 using TwoPlayerAi.Graphs;
 using TwoPlayerAi.Search;
+using TwoPlayerAi.GraphProblems;
 using System.Linq;
 using Xunit;
 
@@ -11,119 +12,7 @@ namespace TwoPlayerAi.Tests.Search
 {
     public class UninformedSearch
     {
-        private class EdgeAction<T> : IAction<T>
-            where T : IEquatable<T>
-        {
-            private Edge<T> _edge;
-
-            public EdgeAction(Edge<T> edge)
-            {
-                _edge = edge;
-            }
-
-            public T FromState 
-            { 
-                get 
-                {
-                    return _edge.Source;
-                } 
-            }
-
-            public T ToState 
-            { 
-                get
-                {
-                    return _edge.Destination;
-                } 
-            }
-
-            public int Cost 
-            { 
-                get
-                {
-                    return _edge.Weight;
-                }
-            }
-
-            public bool Equals(EdgeAction<T> other)
-            {
-                if (other == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    bool states_equal = FromState.Equals(other.FromState) && ToState.Equals(other.ToState);
-                    bool costs_equal = Cost.Equals(other.Cost);
-                    return states_equal && costs_equal;
-                }
-            }
-
-            public override bool Equals(object other)
-            {
-                EdgeAction<T> EdgeVertex = other as EdgeAction<T>;
-                return this.Equals(EdgeVertex);
-            }
-
-            public override int GetHashCode()
-            {
-                int hash = 13;
-                hash = (hash * 7) + FromState.GetHashCode();
-                hash = (hash * 7) + ToState.GetHashCode();
-                return hash + Cost;
-            }
-
-            public override string ToString()
-            {
-                return _edge.ToString();
-            }
-        }
-
-        private class GraphProblem<T> : IProblem<T>
-            where T : IEquatable<T>
-        {
-            private T _initialState;
-            private T _goalState;
-            private IGraph<T> _graph;
-
-            public GraphProblem(IGraph<T> graph, T initialState, T goalState)
-            {
-                _graph = graph;
-                _initialState = initialState;
-                _goalState = goalState;
-            }
-
-            public T InitialState()
-            {
-                return _initialState;
-            }
-
-            public IEnumerable<IAction<T>> Actions(T state)
-            {
-                foreach (Edge<T> edge in  _graph.OutgoingEdges(state))
-                {   
-                    yield return new EdgeAction<T>(edge); 
-                }
-            }
-
-            public T Transition(T state, IAction<T> action)
-            {
-                return action.ToState;
-            }
-
-            public bool GoalTest(T state)
-            {
-                return _goalState.Equals(state);
-            }
-
-            public int StepCost(T state, IAction<T> action)
-            {
-                return action.Cost;
-            }
-        }
-
         private readonly GraphProblem<string> _problem;
-
 
         public UninformedSearch()
         {

@@ -1,10 +1,11 @@
+using System;
 using TwoPlayerAi.DataStructures;
 using System.Collections.Generic;
 
 namespace TwoPlayerAi.Search
 {
     public class AStarSearch<T>
-        where T : IState<T>
+        where T : IEquatable<T>
     {
         public IProblem<T> Problem { get; }
         public PriorityQueue<HeuristicNode<T>> PriorityQueue { get; }
@@ -17,11 +18,13 @@ namespace TwoPlayerAi.Search
             Problem = problem;
             Heuristic = heuristic;
             PriorityQueue = new PriorityQueue<HeuristicNode<T>>();
+            OpenList = new HashSet<T>();
+            ClosedList = new HashSet<T>();
         }
 
         public SearchResult<T> Search()
         {
-            T state = Problem.InitialState();
+            T state = Problem.InitialState;
             HeuristicNode<T> node = new HeuristicNode<T>(state, 1);
             if (Problem.GoalTest(state))
             {

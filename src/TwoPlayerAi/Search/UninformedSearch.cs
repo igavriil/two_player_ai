@@ -20,7 +20,7 @@ namespace TwoPlayerAi.Search
 
         public SearchResult<T> Search()
         {
-            T state = Problem.InitialState();
+            T state = Problem.InitialState;
             Node<T> node = new Node<T>(state);
             if (Problem.GoalTest(state))
             {

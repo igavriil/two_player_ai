@@ -10,18 +10,13 @@ namespace TwoPlayerAi.Tests.Games
         public BoardTest()
         {
             Board board = new Board(5);
-            board.RemoveEdge(new Vector(1,2), new Vector(2,2));
-            board.RemoveEdge(new Vector(2,2), new Vector(2,3));
             Console.WriteLine(board);
             
         }
 
         [Fact]
-        public void ShouldDefineSubstraction()
+        public void ShouldDoSomething()
         {
-            Vector vectorA = new Vector(1, 2);
-            Vector vectorB = new Vector(2, 3);
-            Assert.Equal(new Vector(-1, -1), vectorA - vectorB);
         }
     }
 }

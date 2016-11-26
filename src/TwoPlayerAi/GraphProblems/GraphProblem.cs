@@ -8,7 +8,7 @@ using TwoPlayerAi.AdjacencyMatrices;
 namespace TwoPlayerAi.GraphProblems
 {
     public class GraphProblem<T> : IProblem<T>
-            where T : IEquatable<T>
+        where T : IEquatable<T>
     {
         private T _initialState;
         private T _goalState;
@@ -21,9 +21,20 @@ namespace TwoPlayerAi.GraphProblems
             _goalState = goalState;
         }
 
-        public T InitialState()
+        public T InitialState
         {
-            return _initialState;
+            get
+            {
+                return _initialState;
+            }
+        }
+        
+        public T GoalState
+        {
+            get
+            {
+                return _goalState;
+            }
         }
 
         public IEnumerable<IAction<T>> Actions(T state)

@@ -19,7 +19,7 @@ namespace TwoPlayerAi.Search
             HeuristicCost = heuristicCost;
         }
 
-        public HeuristicNode<T> ChildNode(IProblem<T> problem, IAction<T> action, IHeustisticFunction<T> heurisctic)
+        public HeuristicNode<T> ChildNode(IInformedProblem<T> problem, IAction<T> action, IHeustisticFunction<T> heurisctic)
         {
             T state = problem.Transition(this.State, action);
             int stepCost = problem.StepCost(this.State, action);

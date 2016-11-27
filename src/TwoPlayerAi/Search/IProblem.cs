@@ -7,7 +7,6 @@ namespace TwoPlayerAi.Search
         where T : IEquatable<T>
     {
         T InitialState { get; }
-        T GoalState { get; }
         IEnumerable<IAction<T>> Actions(T state);
         T Transition(T state, IAction<T> action);
         bool GoalTest(T state);

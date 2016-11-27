@@ -7,7 +7,7 @@ using TwoPlayerAi.AdjacencyMatrices;
 
 namespace TwoPlayerAi.GraphProblems
 {
-    public class GraphProblem<T> : IProblem<T>
+    public class GraphProblem<T> : IInformedProblem<T>
         where T : IEquatable<T>
     {
         private T _initialState;

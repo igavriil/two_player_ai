@@ -16,7 +16,7 @@ namespace TwoPlayerAi.Tests.Search
         private class ManhattanDistanceHeuristic<T> : IHeustisticFunction<T>
             where T : Vector, IEquatable<T>
         {
-            public int Calculate(IProblem<T> problem, T state)
+            public int Calculate(IInformedProblem<T> problem, T state)
             {
                 T goalState = problem.GoalState;
                 return state.ManhattanDistance(goalState);
@@ -27,7 +27,7 @@ namespace TwoPlayerAi.Tests.Search
         private class DistanceHeuristic<T> : IHeustisticFunction<T>
             where T : Vector, IEquatable<T>
         {
-            public int Calculate(IProblem<T> problem, T state)
+            public int Calculate(IInformedProblem<T> problem, T state)
             {
                 T goalState = problem.GoalState;
                 return state.Distance(goalState);
@@ -38,7 +38,7 @@ namespace TwoPlayerAi.Tests.Search
         private class SquareDistanceHeuristic<T> : IHeustisticFunction<T>
             where T : Vector, IEquatable<T>
         {
-            public int Calculate(IProblem<T> problem, T state)
+            public int Calculate(IInformedProblem<T> problem, T state)
             {
                 T goalState = problem.GoalState;
                 return state.SquareDistance(goalState);
@@ -49,7 +49,7 @@ namespace TwoPlayerAi.Tests.Search
         private class DiagonalDistanceHeuristic<T> : IHeustisticFunction<T>
             where T : Vector, IEquatable<T>
         {
-            public int Calculate(IProblem<T> problem, T state)
+            public int Calculate(IInformedProblem<T> problem, T state)
             {
                 T goalState = problem.GoalState;
                 return state.DiagonalDistance(goalState);

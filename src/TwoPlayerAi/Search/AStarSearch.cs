@@ -7,13 +7,13 @@ namespace TwoPlayerAi.Search
     public class AStarSearch<T>
         where T : IEquatable<T>
     {
-        public IProblem<T> Problem { get; }
+        public IInformedProblem<T> Problem { get; }
         public PriorityQueue<HeuristicNode<T>> PriorityQueue { get; }
         public HashSet<T> OpenList { get; }
         public HashSet<T> ClosedList { get; }
 
         public IHeustisticFunction<T> Heuristic { get; }
-        public AStarSearch(IProblem<T> problem, IHeustisticFunction<T> heuristic)
+        public AStarSearch(IInformedProblem<T> problem, IHeustisticFunction<T> heuristic)
         {
             Problem = problem;
             Heuristic = heuristic;

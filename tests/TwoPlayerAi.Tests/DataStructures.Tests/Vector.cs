@@ -1,8 +1,8 @@
 using System;
 using Xunit;
-using TwoPlayerAi.Games;
+using TwoPlayerAi.DataStructures;
 
-namespace TwoPlayerAi.Tests.Games
+namespace TwoPlayerAi.Tests.DataStructures
 {
     public class VectorTest
     {

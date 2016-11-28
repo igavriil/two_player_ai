@@ -1,6 +1,6 @@
 using System;
 
-namespace TwoPlayerAi.Games
+namespace TwoPlayerAi.DataStructures
 {
     public class Vector : IEquatable<Vector>
     {

@@ -5,6 +5,7 @@ using TwoPlayerAi.AdjacencyMatrices;
 using TwoPlayerAi.Graphs;
 using TwoPlayerAi.Search;
 using TwoPlayerAi.GraphProblems;
+using TwoPlayerAi.DataStructures;
 using TwoPlayerAi.Games;
 using System.Linq;
 using Xunit;
@@ -13,50 +14,6 @@ namespace TwoPlayerAi.Tests.Search
 {
     public class AStarSearch
     {
-        private class ManhattanDistanceHeuristic<T> : IHeustisticFunction<T>
-            where T : Vector, IEquatable<T>
-        {
-            public int Calculate(IInformedProblem<T> problem, T state)
-            {
-                T goalState = problem.GoalState;
-                return state.ManhattanDistance(goalState);
-
-            }
-        }
-        
-        private class DistanceHeuristic<T> : IHeustisticFunction<T>
-            where T : Vector, IEquatable<T>
-        {
-            public int Calculate(IInformedProblem<T> problem, T state)
-            {
-                T goalState = problem.GoalState;
-                return state.Distance(goalState);
-
-            }
-        }
-
-        private class SquareDistanceHeuristic<T> : IHeustisticFunction<T>
-            where T : Vector, IEquatable<T>
-        {
-            public int Calculate(IInformedProblem<T> problem, T state)
-            {
-                T goalState = problem.GoalState;
-                return state.SquareDistance(goalState);
-
-            }
-        }
-
-        private class DiagonalDistanceHeuristic<T> : IHeustisticFunction<T>
-            where T : Vector, IEquatable<T>
-        {
-            public int Calculate(IInformedProblem<T> problem, T state)
-            {
-                T goalState = problem.GoalState;
-                return state.DiagonalDistance(goalState);
-
-            }
-        }
-
         private readonly GraphProblem<Vector> _problem;
 
         public AStarSearch()

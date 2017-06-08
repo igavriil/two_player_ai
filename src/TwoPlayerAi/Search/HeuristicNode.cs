@@ -28,7 +28,8 @@ namespace TwoPlayerAi.Search
             return new HeuristicNode<T>(state, action, this, totalCost, heuristicCost); 
         }
 
-        public int CompareTo(object other) {
+        public int CompareTo(object other) 
+        {
             if (other == null)
             {
                 return 1;
@@ -38,7 +39,8 @@ namespace TwoPlayerAi.Search
             return this.CompareTo(otherHeuristicNode);
         }
 
-        public int CompareTo(HeuristicNode<T> other) {
+        public int CompareTo(HeuristicNode<T> other) 
+        {
             return this.HeuristicCost.CompareTo(other.HeuristicCost);
         }
     }

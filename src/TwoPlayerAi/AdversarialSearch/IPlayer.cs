@@ -2,7 +2,7 @@ using System;
 
 namespace TwoPlayerAi.AdversarialSearch
 {
-     public interface IPlayer: IEquatable<IPlayer>
+     public interface IPlayer
      {
          String Identifier { get;  }
 

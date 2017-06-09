@@ -2,7 +2,7 @@ using System;
 
 namespace TwoPlayerAi.Search
 {
-    public class Node<T> 
+    public class Node<T>
         where T : IEquatable<T>
     {
         public T State { get; }
@@ -18,14 +18,14 @@ namespace TwoPlayerAi.Search
             PathCost = pathCost;
         }
 
-        public Node(T state): this(state, null, null, 0) {}
+        public Node(T state) : this(state, null, null, 0) { }
 
         public Node<T> ChildNode(IProblem<T> problem, IAction<T> action)
         {
             T state = problem.Transition(this.State, action);
             int stepCost = problem.StepCost(this.State, action);
             int totalCost = this.PathCost + stepCost;
-            return new Node<T>(state, action, this, totalCost); 
+            return new Node<T>(state, action, this, totalCost);
         }
     }
 }

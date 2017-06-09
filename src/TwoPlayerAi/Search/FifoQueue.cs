@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TwoPlayerAi.Search
 {
-    public class FifoQueue<T>: Queue<T>, IFrontier<T>
+    public class FifoQueue<T> : Queue<T>, IFrontier<T>
     {
         private Stack<T> _stack;
 
@@ -10,19 +10,19 @@ namespace TwoPlayerAi.Search
         {
             _stack = new Stack<T>();
         }
-        public bool IsEmpty 
-        { 
-            get 
+        public bool IsEmpty
+        {
+            get
             {
-               return  _stack.Count == 0;
-            } 
+                return _stack.Count == 0;
+            }
         }
-        public T First 
-        { 
-            get 
+        public T First
+        {
+            get
             {
                 return _stack.Peek();
-            } 
+            }
         }
         public T Take()
         {
@@ -36,7 +36,7 @@ namespace TwoPlayerAi.Search
         {
             foreach (T element in elements)
             {
-               this.Put(element);
+                this.Put(element);
             }
         }
     }

@@ -29,24 +29,24 @@ namespace TwoPlayerAi.Games
         private void SetEdges()
         {
             for (int x = 0; x < Dimension; x++)
-            {   
+            {
                 for (int y = 0; y < Dimension; y++)
                 {
                     if (y + 1 < Dimension)
                     {
-                        this.SetEdge(new Vector(x,y), new Vector(x, y - 1));
+                        this.SetEdge(new Vector(x, y), new Vector(x, y - 1));
                     }
                     if (y - 1 < Dimension)
                     {
-                        this.SetEdge(new Vector(x,y), new Vector(x, y - 1));
+                        this.SetEdge(new Vector(x, y), new Vector(x, y - 1));
                     }
                     if (x + 1 < Dimension)
                     {
-                        this.SetEdge(new Vector(x,y), new Vector(x + 1, y));
+                        this.SetEdge(new Vector(x, y), new Vector(x + 1, y));
                     }
                     if (x - 1 < Dimension)
                     {
-                        this.SetEdge(new Vector(x,y), new Vector(x - 1, y));
+                        this.SetEdge(new Vector(x, y), new Vector(x - 1, y));
                     }
                 }
             }
@@ -67,12 +67,12 @@ namespace TwoPlayerAi.Games
             StringBuilder lineBuilder = new StringBuilder();
             StringBuilder horizontalBuilder = new StringBuilder();
             StringBuilder verticalBuilder = new StringBuilder();
-            for (int x = 0; x < Dimension ; x++)
+            for (int x = 0; x < Dimension; x++)
             {
                 Vector vector = new Vector(x, y);
                 if (x + 1 < Dimension)
                 {
-                    if (this.HasEdge(vector, new Vector(x+1, y)))
+                    if (this.HasEdge(vector, new Vector(x + 1, y)))
                     {
                         horizontalBuilder.Append($"[{vector}] - ");
                     }

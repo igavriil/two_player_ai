@@ -3,10 +3,10 @@ using TwoPlayerAi.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Graphs
 {
-    public class DirectedSparseGraph<T>: Graph<T> 
+    public class DirectedSparseGraph<T> : Graph<T>
         where T : IEquatable<T>
     {
-        public DirectedSparseGraph(): base(new AdjacencySparseMatrix<T>())
+        public DirectedSparseGraph() : base(new AdjacencySparseMatrix<T>())
         {
             _isDirected = true;
         }
@@ -18,7 +18,7 @@ namespace TwoPlayerAi.Graphs
 
         public override bool RemoveEdge(T source, T destination)
         {
-           return this._adjacencyMatrix.RemoveEdge(source, destination);
+            return this._adjacencyMatrix.RemoveEdge(source, destination);
         }
     }
 }

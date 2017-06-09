@@ -3,10 +3,10 @@ using TwoPlayerAi.AdjacencyMatrices;
 
 namespace TwoPlayerAi.Graphs
 {
-    public class UndirectedDenseGraph<T>: Graph<T> 
+    public class UndirectedDenseGraph<T> : Graph<T>
         where T : IEquatable<T>
     {
-        public UndirectedDenseGraph(): base(new AdjacencyDenseMatrix<T>())
+        public UndirectedDenseGraph() : base(new AdjacencyDenseMatrix<T>())
         {
             _isDirected = false;
         }
@@ -18,7 +18,7 @@ namespace TwoPlayerAi.Graphs
 
         public override bool RemoveEdge(T source, T destination)
         {
-           return this._adjacencyMatrix.RemoveEdge(source, destination) && this._adjacencyMatrix.RemoveEdge(destination, source);
+            return this._adjacencyMatrix.RemoveEdge(source, destination) && this._adjacencyMatrix.RemoveEdge(destination, source);
         }
     }
 }

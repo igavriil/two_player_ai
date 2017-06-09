@@ -13,5 +13,6 @@ namespace TwoPlayerAi.AdversarialSearch
         T Result(T state, IAction<T> action);
         bool TerminalTest(T state);
         int UtilityFunction(T state, IPlayer player);
+        int HeuristicFunction(T state, IPlayer player);
     }
 }

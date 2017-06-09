@@ -19,7 +19,7 @@ namespace TwoPlayerAi.Graphs
         }
 
         public abstract bool SetEdge(T source, T destination, int weight);
-        
+
         public abstract bool RemoveEdge(T source, T destination);
 
         public bool SetEdge(T source, T destination)

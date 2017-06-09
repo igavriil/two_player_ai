@@ -15,7 +15,7 @@ namespace TwoPlayerAi.DataStructures
         public int Distance(Vector other)
         {
             double square_distance = Math.Pow(this.X - other.X, 2) + Math.Pow(this.Y - other.Y, 2);
-            return (int)Math.Sqrt(square_distance); 
+            return (int)Math.Sqrt(square_distance);
         }
 
         public int SquareDistance(Vector other)

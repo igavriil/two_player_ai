@@ -13,7 +13,7 @@ namespace TwoPlayerAi.Search
 
         }
     }
-    
+
     public class DistanceHeuristic<T> : IHeustisticFunction<T>
         where T : Vector, IEquatable<T>
     {

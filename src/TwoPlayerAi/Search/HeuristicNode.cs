@@ -25,10 +25,10 @@ namespace TwoPlayerAi.Search
             int stepCost = problem.StepCost(this.State, action);
             int totalCost = this.PathCost + stepCost;
             int heuristicCost = totalCost + heurisctic.Calculate(problem, state);
-            return new HeuristicNode<T>(state, action, this, totalCost, heuristicCost); 
+            return new HeuristicNode<T>(state, action, this, totalCost, heuristicCost);
         }
 
-        public int CompareTo(object other) 
+        public int CompareTo(object other)
         {
             if (other == null)
             {
@@ -39,7 +39,7 @@ namespace TwoPlayerAi.Search
             return this.CompareTo(otherHeuristicNode);
         }
 
-        public int CompareTo(HeuristicNode<T> other) 
+        public int CompareTo(HeuristicNode<T> other)
         {
             return this.HeuristicCost.CompareTo(other.HeuristicCost);
         }

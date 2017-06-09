@@ -17,7 +17,7 @@ namespace TwoPlayerAi.Quoridor
 
         public IEnumerable<Vector> GoalPositions { get; set; }
 
-        public int WallsCount { get; set; }
+        public int FencesCount { get; set; }
 
         public QuoridorPlayer(String identifier, bool isMax, bool isMin)
         {

@@ -13,6 +13,8 @@ namespace TwoPlayerAi.AdjacencyMatrices
             Weight = weight;
         }
 
+        public Edge(TVertex source, TVertex destination) : this(source, destination, 1) { }
+
         public TVertex Source { get; }
 
         public TVertex Destination { get; }

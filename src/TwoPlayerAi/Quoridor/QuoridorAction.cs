@@ -12,18 +12,21 @@ namespace TwoPlayerAi.Quoridor
 
         public QuoridorAction(QuoridorState fromState, QuoridorState toState)
         {
-            FromState = from;
-            ToState = to;
+            FromState = fromState;
+            ToState = toState;
             Cost = 1;
         }
     }
 
-    public class FenceAction : QuoridorAction
+    public class FenceAction
     {
-
+        public FenceAction(QuoridorState state, Fence fence)
+        {
+            state.Board.RemoveEdge()
+        }
     }
 
-    public class PlayerAction : QuoridorAction
+    public class PlayerAction
     {
 
     }

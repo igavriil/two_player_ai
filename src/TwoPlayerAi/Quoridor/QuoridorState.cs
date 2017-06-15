@@ -5,9 +5,20 @@ namespace TwoPlayerAi.Quoridor
 {
     public class QuoridorState
     {
-        public Board Board;
+        public Board Board { get; set; }
 
-        IEnumerable<QuoridorPlayer> Players { get; set; }
+        public IEnumerable<QuoridorPlayer> Players { get; set; }
 
+        public int Round { get; set; }
+
+        public FenceAction PlaceFence(Fence fence)
+        {
+
+        }
+
+        public PlayerAction MovePlayer(QuoridorPlayer player, Vector from, Vector to)
+        {
+
+        }
     }
 }

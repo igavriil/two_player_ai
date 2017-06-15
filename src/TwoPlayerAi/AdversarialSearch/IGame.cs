@@ -7,7 +7,7 @@ namespace TwoPlayerAi.AdversarialSearch
     public interface IGame<T>
         where T : IEquatable<T>
     {
-        T InitialState { get; }
+        T InitialState();
         IPlayer Player(T state);
         IEnumerable<IAction<T>> Actions(T state);
         T Result(T state, IAction<T> action);

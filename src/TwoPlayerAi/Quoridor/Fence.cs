@@ -12,7 +12,27 @@ namespace TwoPlayerAi.Quoridor
         {
             StartVector = startVector;
             EndVector = endVector;
-        } 
-    }
+        }
 
+        public bool Horizontal
+        {
+            get
+            {
+                return this.StartVector.X == this.EndVector.X;
+            }
+        }
+
+        public bool Vertical
+        {
+            get
+            {
+                return this.StartVector.Y == this.EndVector.Y;
+            }
+        }
+
+        public Vertices
+        {
+
+        }
+    }
 }
